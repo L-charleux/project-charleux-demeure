@@ -7,11 +7,11 @@ export class PoIController {
   constructor(private readonly PoIService: PoIService) {}
 
   @Get() 
-  getPoIs(@Query('author') author): PoI[] {
-      if (author === undefined) {
+  getPoIs(@Query('place') place): PoI[] {
+      if (place === undefined) {
         return this.PoIService.getAllPoIs();
       } else {
-        return this.PoIService.getPoIsOf(author);
+        return this.PoIService.getPoIsOf(place);
       }
       
   }
