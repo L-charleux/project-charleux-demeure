@@ -1,5 +1,7 @@
 package com.ismin.csproject
 
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.os.Bundle
 //import android.view.Menu
 //import android.view.MenuItem
@@ -11,6 +13,8 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptor
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.tabs.TabLayout
@@ -20,6 +24,10 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import android.graphics.drawable.VectorDrawable
+
+
+
 
 class MainActivity : AppCompatActivity(), OnMapReadyCallback { //PoICreator
 
@@ -93,16 +101,46 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback { //PoICreator
 
     override fun onMapReady(gmap: GoogleMap?) {
         if (gmap != null) {
+            var icToPick: BitmapDescriptor;
             poiStorage.getAllPoIs().forEach {
+
+                icToPick = when {
+                    it.type == "Pokestop" -> {
+                        BitmapDescriptorFactory.fromBitmap(getBitmap(getDrawable(R.drawable.ic_pokestop) as VectorDrawable))
+                    }
+                    it.level == "Gold" -> {
+                        BitmapDescriptorFactory.fromBitmap(getBitmap(getDrawable(R.drawable.ic_golden_gym) as VectorDrawable))
+                    }
+                    else -> {
+                        BitmapDescriptorFactory.fromBitmap(getBitmap(getDrawable(R.drawable.ic_gym) as VectorDrawable))
+                    }
+                }
+
                 gmap.addMarker(
                     MarkerOptions()
                         .position(LatLng(it.latitude, it.longitude))
                         .title(it.name.toString())
+                        .icon(icToPick)
                 )
             }
             gmap.moveCamera(CameraUpdateFactory.newLatLng(LatLng(46.1390412, 2.4349004)))
             gmap.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(46.1390412, 2.4349004), 6F))
         }
+    }
+
+    private fun getBitmap(vectorDrawable: VectorDrawable): Bitmap? {
+        val bitmap = Bitmap.createBitmap(
+            vectorDrawable.intrinsicWidth,
+            vectorDrawable.intrinsicHeight, Bitmap.Config.ARGB_8888
+        )
+        val canvas = Canvas(bitmap)
+        vectorDrawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight())
+        vectorDrawable.draw(canvas)
+        return bitmap
+    }
+
+    private fun launchDetails() {
+
     }
 
     /*

@@ -9,7 +9,7 @@ export interface PoI {
     commentary: string;
     level: string;
     type: string;
-    picture_link: string;
+    pictureLink: string;
     //favorite: boolean;
 }
 
