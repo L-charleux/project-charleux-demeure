@@ -22,19 +22,19 @@ export class PoIController {
     return PoI;
   }
 
-  @Get('/:longitude/:latitude')
-  getPoI(@Param('longitude') longitude: number, @Param('latitude') latitude: number): PoI {
+  @Get('/:latitude/:longitude')
+  getPoI(@Param('latitude') latitude: number, @Param('longitude') longitude: number): PoI {
     return this.PoIService.getPoI(longitude, latitude);
   }
 
-  @Delete('/:longitude/:latitude')
-  deletePoI(@Param('longitude') longitude: number, @Param('latitude') latitude: number): void {
-    this.PoIService.deletePoI(longitude, latitude);
+  @Delete('/:latitude/:longitude')
+  deletePoI(@Param('longitude') latitude: number, @Param('latitude') longitude: number): void {
+    this.PoIService.deletePoI(latitude, longitude);
   }
 
   /*
-  @Put('/:longitude/:latitude')
-  favoritePoI(@Param('longitude') longitude: number, @Param('latitude') latitude: number, @Body())  {
+  @Put('/:latitude/:longitude')
+  favoritePoI(@Param('latitude') latitude: number, @Param('longitude') longitude: number, @Body())  {
     this.PoIService.
   }
   */

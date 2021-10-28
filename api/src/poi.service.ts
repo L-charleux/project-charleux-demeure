@@ -26,8 +26,8 @@ export class PoIService implements OnModuleInit {
               response.data.map((apiPoI) => ({
                 name : apiPoI.Name,
                 place: apiPoI.Lieu,
-                longitude: Number(apiPoI.GPS_Coord.split(",")[0]),
-                latitude: Number(apiPoI.GPS_Coord.split(",")[1]),
+                latitude: Number(apiPoI.GPS_Coord.split(",")[0]),
+                longitude: Number(apiPoI.GPS_Coord.split(",")[1]),
                 badge: apiPoI.Badge === "Oui" ? true : false,
                 commentary: apiPoI.Commentaires,
                 level: apiPoI.Niveau,
@@ -66,8 +66,8 @@ export class PoIService implements OnModuleInit {
         return this.storage.sort((poiA, poiB) => poiA.name.localeCompare(poiB.name));
     }
 
-    getPoI(longitude: number, latitude: number): PoI | undefined {
-        return this.storage.find(value => value.longitude === longitude && value.latitude === latitude);
+    getPoI(latitude: number, longitude: number): PoI | undefined {
+        return this.storage.find(value => value.latitude === latitude && value.longitude === longitude);
     }
 
 
@@ -75,8 +75,8 @@ export class PoIService implements OnModuleInit {
         return this.storage.filter(value => value.place === place);
     }
 
-    deletePoI(longitude: number, latitude: number): void {
-        let poi: PoI = this.getPoI(longitude, latitude);
+    deletePoI(latitude: number, longitude: number): void {
+        let poi: PoI = this.getPoI(latitude, longitude);
         if (poi !== undefined) {
             let poiIndex: number = this.storage.indexOf(poi);
             if (poiIndex > -1) {

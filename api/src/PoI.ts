@@ -3,8 +3,8 @@ import internal from "stream";
 export interface PoI {
     name: string;
     place: string;
-    longitude: number;
     latitude: number;
+    longitude: number;
     badge: boolean;
     commentary: string;
     level: string;
