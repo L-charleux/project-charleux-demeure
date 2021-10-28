@@ -1,6 +1,6 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { promises } from 'fs';
-import { PoI, APIPoI } from './PoI';
+import { PoI, ExternalPoI } from './PoI';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom, map } from 'rxjs';
 
@@ -20,7 +20,7 @@ export class PoIService implements OnModuleInit {
 
        const apiPoIs = await firstValueFrom(
         this.httpService
-          .get<APIPoI[]>('https://api.npoint.io/01b169adea931451edce')
+          .get<ExternalPoI[]>('https://api.npoint.io/01b169adea931451edce')
           .pipe(
             map((response) =>
               response.data.map((apiPoI) => ({
@@ -33,6 +33,7 @@ export class PoIService implements OnModuleInit {
                 level: apiPoI.Niveau,
                 type: apiPoI.Type,
                 picture_link: apiPoI.gx_media_links,
+                favorite: false
               })),
             ),
           ),

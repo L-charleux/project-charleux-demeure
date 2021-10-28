@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">Project CS LCX and TDE</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

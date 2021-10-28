@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Query, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Query, Param, Delete, Put } from '@nestjs/common';
 import { PoIService } from './poi.service';
 import { PoI } from './PoI';
 
@@ -32,4 +32,10 @@ export class PoIController {
     this.PoIService.deletePoI(longitude, latitude);
   }
 
+  /*
+  @Put('/:longitude/:latitude')
+  favoritePoI(@Param('longitude') longitude: number, @Param('latitude') latitude: number, @Body())  {
+    this.PoIService.
+  }
+  */
 }

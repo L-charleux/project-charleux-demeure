@@ -1,0 +1,38 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt"
+    android:viewportWidth="512"
+    android:viewportHeight="512"
+    android:width="512dp"
+    android:height="512dp">
+
+    <path
+        android:pathData="M27.5 64Q39.9 62.6 47.5 66L61 76.5L67 87.5L68 103.5Q64.9 117.9 54.5 125L41.5 131L27.5 131Q16.6 127.9 10 122L4 113.5L1 105.5Q2.8 99.3 0 97.5L2 86.5L6 78.5L14.5 70L27.5 64Z"
+        android:fillColor="#000000"
+        android:strokeColor="#000000"
+        android:strokeWidth="1" />
+    <path
+        android:pathData="M137.5 71L492.5 71Q501 73.5 506 79.5L510 86.5L512 95.5Q509.5 97 511 102.5L507 110.5L501.5 116L489.5 121L141.5 121Q128.8 118.8 123 109.5L119 100.5L119 91.5Q121.4 80.4 129.5 75L137.5 71Z"
+        android:fillColor="#000000"
+        android:strokeColor="#000000"
+        android:strokeWidth="1" />
+    <path
+        android:pathData="M30.5 222L38.5 222L46.5 224L59 232.5Q65.5 239 68 249.5L68 262.5Q65.1 274.1 57.5 281L46.5 288L38.5 290L30.5 290Q15.7 287.3 8 277.5L3 269.5L0 255.5Q2.5 254 1 248.5L5 238.5L13.5 229Q20.1 223.6 30.5 222Z"
+        android:fillColor="#000000"
+        android:strokeColor="#000000"
+        android:strokeWidth="1" />
+    <path
+        android:pathData="M139.5 231L491.5 231Q502.4 234.1 508 242.5L511 249.5L512 256.5L508 269.5L500.5 277L491.5 281L139.5 281Q129.4 278.6 124 271.5L119 260.5L119 251.5Q121.4 241.4 128.5 236L139.5 231Z"
+        android:fillColor="#000000"
+        android:strokeColor="#000000"
+        android:strokeWidth="1" />
+    <path
+        android:pathData="M27.5 381Q40.2 379.3 47.5 383Q56.5 387 62 394.5L68 408.5L68 420.5Q65.1 434.1 55.5 441Q46.7 449.7 27.5 448Q13.4 444.1 6 433.5L2 425.5L0 414.5Q2.8 412.8 1 406.5L4 398.5L10 390Q16.6 384.1 27.5 381Z"
+        android:fillColor="#000000"
+        android:strokeColor="#000000"
+        android:strokeWidth="1" />
+    <path
+        android:pathData="M141.5 391L489.5 391Q501.3 393.2 507 401.5L511 409.5Q509.5 415 512 416.5L510 425.5L502.5 436L492.5 441L137.5 441Q128.2 437.8 123 430.5L119 420.5L119 411.5Q122.1 400.6 130.5 395L141.5 391Z"
+        android:fillColor="#000000"
+        android:strokeColor="#000000"
+        android:strokeWidth="1" />
+
+</vector>

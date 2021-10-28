@@ -10,9 +10,10 @@ export interface PoI {
     level: string;
     type: string;
     picture_link: string;
+    //favorite: boolean;
 }
 
-export interface APIPoI {
+export interface ExternalPoI {
     Name: string;
     Lieu: string;
     GPS_Coord: string;
