@@ -26,12 +26,12 @@ export class PoIController {
     return this.PoIService.getPoI(longitude, latitude);
   }
 
+  /*
   @Delete('/:latitude/:longitude')
   deletePoI(@Param('longitude') latitude: number, @Param('latitude') longitude: number): void {
     this.PoIService.deletePoI(latitude, longitude);
   }
 
-  /*
   @Put('/:latitude/:longitude')
   favoritePoI(@Param('latitude') latitude: number, @Param('longitude') longitude: number, @Body())  {
     this.PoIService.
