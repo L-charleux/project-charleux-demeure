@@ -21,14 +21,12 @@ export class PoIController {
     return PoI;
   }
 
-  @Get('/:latitude')
-  getPoI(@Param('latitude') latitude: string): PoI {
-    return this.PoIService.getPoI(latitude);
+  @Get('/:latitude/:longitude')
+  getPoI(@Param('latitude') latitude: string, @Param('longitude') longitude: string): PoI {
+    return this.PoIService.getPoI(latitude, longitude);
   }
 
   /*
-  /:longitude
-  , @Param('longitude') longitude: number
   @Delete('/:latitude/:longitude')
   deletePoI(@Param('longitude') latitude: number, @Param('latitude') longitude: number): void {
     this.PoIService.deletePoI(latitude, longitude);

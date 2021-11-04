@@ -52,8 +52,8 @@ export class PoIService implements OnModuleInit {
         return poisToSend.sort((poiA, poiB) => poiA.name.localeCompare(poiB.name));
     }
 
-    getPoI(latitude: string): PoI | undefined {
-        return this.storage.find(value => value.latitude.toString() === latitude);
+    getPoI(latitude: string, longitude: string): PoI | undefined {
+        return this.storage.find(value => value.latitude.toString() === latitude && value.longitude.toString() === longitude);
     }
 
     getPoIsOf(place: string) {
