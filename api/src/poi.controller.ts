@@ -22,7 +22,7 @@ export class PoIController {
   }
 
   @Get('/:latitude')
-  getPoI(@Param('latitude') latitude: number): PoI {
+  getPoI(@Param('latitude') latitude: string): PoI {
     return this.PoIService.getPoI(latitude);
   }
 
