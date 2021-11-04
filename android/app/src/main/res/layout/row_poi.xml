@@ -16,7 +16,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/r_book_imv_logo"
+        app:layout_constraintStart_toEndOf="@+id/r_poi_imv_logo"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Name" />
 
@@ -31,12 +31,12 @@
         tools:text="Place" />
 
     <ImageView
-        android:id="@+id/r_book_imv_logo"
+        android:id="@+id/r_poi_imv_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="Logo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/test" />
+        app:srcCompat="@drawable/ic_poi_logo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

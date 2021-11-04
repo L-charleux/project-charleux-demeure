@@ -1,8 +1,10 @@
 package com.ismin.csproject
 
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import androidx.viewpager.widget.PagerAdapter
 
 class ViewPagerAdapter(private val fm: FragmentManager) : FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
@@ -24,5 +26,10 @@ class ViewPagerAdapter(private val fm: FragmentManager) : FragmentPagerAdapter(f
     fun addFragment(f:Fragment, title:String) {
         fragmentList.add(f);
         fragmentTitle.add(title);
+    }
+
+    fun deleteFragments() {
+        fragmentList.clear()
+        fragmentTitle.clear()
     }
 }

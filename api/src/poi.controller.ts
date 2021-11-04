@@ -1,13 +1,13 @@
 import { Controller, Get, Post, Body, Query, Param, Delete, Put } from '@nestjs/common';
 import { PoIService } from './poi.service';
-import { PoI } from './PoI';
+import { PoI, PoIAbriged } from './PoI';
 
 @Controller('/PoIs')
 export class PoIController {
   constructor(private readonly PoIService: PoIService) {}
 
   @Get() 
-  getPoIs(@Query('place') place): PoI[] {
+  getPoIs(@Query('place') place): PoIAbriged[] {
       if (place === undefined) {
         return this.PoIService.getAllPoIs();
       } else {

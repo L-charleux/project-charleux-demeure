@@ -36,7 +36,7 @@ class DetailsActivity : AppCompatActivity() {
 
         Glide.with(this)
             .load(poiFromMain.pictureLink)
-            .placeholder(R.drawable.test)
+            .placeholder(R.drawable.ic_poi_logo)
             .error(R.drawable.ic_favorite)
             .fallback(R.drawable.ic_golden_gym)
             .into(imvImage)

@@ -3,8 +3,8 @@ package com.ismin.csproject
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Bundle
-//import android.view.Menu
-//import android.view.MenuItem
+import android.view.Menu
+import android.view.MenuItem
 //import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -25,13 +25,25 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import android.graphics.drawable.VectorDrawable
-
-
+import android.util.Log
+import androidx.fragment.app.FragmentTransaction
 
 
 class MainActivity : AppCompatActivity(), OnMapReadyCallback { //PoICreator
 
     private val poiStorage = PoIStorage()
+
+    private val poiTest = PoI(
+        name = "nom",
+        place = "lieu",
+        latitude = 44.5,
+        longitude = 2.5,
+        badge = true,
+        commentary = "commentaire",
+        level = "Gold",
+        type = "Arene",
+        pictureLink = ""
+    )
 
     private lateinit var tabs: TabLayout
     private lateinit var viewPager: ViewPager
@@ -92,7 +104,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback { //PoICreator
         viewPagerAdapter.addFragment(InfoFragment(), "")
 
         viewPager.adapter = viewPagerAdapter
-        tabs.setupWithViewPager(viewPager)
+        tabs.setupWithViewPager(viewPager, true)
 
         tabs.getTabAt(0)!!.setIcon(R.drawable.ic_list)
         tabs.getTabAt(1)!!.setIcon(R.drawable.ic_maps)
@@ -139,8 +151,30 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback { //PoICreator
         return bitmap
     }
 
-    private fun launchDetails() {
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        super.onCreateOptionsMenu(menu)
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.main_menu_refresh -> {
+                poiStorage.clear()
+                poiStorage.addPoI(poiTest)
+                Log.d("tag", poiStorage.getAllPoIs()[0].name)
+                viewPagerAdapter.deleteFragments()
+                viewPagerAdapter.addFragment(PoIListFragment.newInstance(poiStorage.getAllPoIs()), "")
+                var supportMapFragment = SupportMapFragment.newInstance()
+                supportMapFragment.getMapAsync(this)
+                viewPagerAdapter.addFragment(supportMapFragment, "")
+                viewPagerAdapter.addFragment(InfoFragment(), "")
+                viewPagerAdapter.notifyDataSetChanged()
+                true
+            }
+            // If we got here, the user's action was not recognized.
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     /*

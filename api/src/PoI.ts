@@ -5,12 +5,11 @@ export interface PoI {
     place: string;
     latitude: number;
     longitude: number;
-    badge: boolean;
     commentary: string;
     level: string;
     type: string;
     pictureLink: string;
-    //favorite: boolean;
+    favorite: boolean;
 }
 
 export interface ExternalPoI {
@@ -22,4 +21,14 @@ export interface ExternalPoI {
     Niveau: string;
     Type: string;
     gx_media_links: string;
+}
+
+export interface PoIAbriged {
+    name: string;
+    place: string;
+    latitude: number;
+    longitude: number;
+    level: string;
+    type: string;
+    favorite: boolean;
 }
