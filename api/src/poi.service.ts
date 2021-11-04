@@ -52,8 +52,8 @@ export class PoIService implements OnModuleInit {
         return poisToSend.sort((poiA, poiB) => poiA.name.localeCompare(poiB.name));
     }
 
-    getPoI(latitude: number, longitude: number): PoI | undefined {
-        return this.storage.find(value => value.latitude === latitude && value.longitude === longitude);
+    getPoI(latitude: number): PoI | undefined {
+        return this.storage.find(value => value.latitude === latitude);
     }
 
     getPoIsOf(place: string) {
@@ -62,6 +62,7 @@ export class PoIService implements OnModuleInit {
         return poisToSend.filter(value => value.place === place);
     }
 
+    /*
     deletePoI(latitude: number, longitude: number): void {
         let poi: PoI = this.getPoI(latitude, longitude);
         if (poi !== undefined) {
@@ -71,6 +72,7 @@ export class PoIService implements OnModuleInit {
             }
         }
     }
+    */
 
     createPoIAbriged(poi: PoI): PoIAbriged {
         let poiAbriged: PoIAbriged = {
