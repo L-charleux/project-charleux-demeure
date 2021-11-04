@@ -56,7 +56,6 @@ export class PoIService implements OnModuleInit {
         return this.storage.find(value => value.latitude === latitude && value.longitude === longitude);
     }
 
-
     getPoIsOf(place: string) {
         let poisToSend: PoIAbriged [] = [];
         this.storage.forEach(poi => poisToSend.push(this.createPoIAbriged(poi)))
@@ -74,14 +73,15 @@ export class PoIService implements OnModuleInit {
     }
 
     createPoIAbriged(poi: PoI): PoIAbriged {
-        let poiAbriged: PoIAbriged
-        poiAbriged.name = poi.name
-        poiAbriged.place = poi.place
-        poiAbriged.latitude = poi.latitude
-        poiAbriged.longitude = poi.longitude
-        poiAbriged.level = poi.level
-        poiAbriged.type = poi.type
-        poiAbriged.favorite = poi.favorite
+        let poiAbriged: PoIAbriged = {
+            name: poi.name,
+            place: poi.place,
+            latitude: poi.latitude,
+            longitude: poi.longitude,
+            level: poi.level,
+            type: poi.type,
+            favorite: poi.favorite
+        }
         return poiAbriged
     }
 

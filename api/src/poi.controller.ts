@@ -13,7 +13,6 @@ export class PoIController {
       } else {
         return this.PoIService.getPoIsOf(place);
       }
-      
   }
 
   @Post()
