@@ -1,6 +1,14 @@
-import internal from "stream";
-
 export interface PoI {
+    name: string;
+    place: string;
+    latitude: number;
+    longitude: number;
+    level: string;
+    type: string;
+    favorite: boolean;
+}
+
+export interface DetailedPoI {
     name: string;
     place: string;
     latitude: number;
@@ -21,14 +29,4 @@ export interface ExternalPoI {
     Niveau: string;
     Type: string;
     gx_media_links: string;
-}
-
-export interface PoIAbriged {
-    name: string;
-    place: string;
-    latitude: number;
-    longitude: number;
-    level: string;
-    type: string;
-    favorite: boolean;
 }

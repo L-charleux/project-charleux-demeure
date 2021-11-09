@@ -15,22 +15,18 @@ import com.google.android.material.internal.ContextUtils.getActivity
 
 class PoIAdapter(private val pois: ArrayList<PoI>): RecyclerView.Adapter<PoIViewHolder>() {
 
-    val EXTRA_POI = "extra-poi"
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PoIViewHolder {
         val row = LayoutInflater.from(parent.context).inflate(R.layout.row_poi, parent, false)
         val viewHolder = PoIViewHolder(row)
-        val activity = viewHolder.itemView.context as Activity
+        val activity = viewHolder.itemView.context as MainActivity
         viewHolder.poi_item.setOnClickListener {
-            val intent = Intent(activity, DetailsActivity::class.java)
-            intent.putExtra(EXTRA_POI, pois[viewHolder.adapterPosition])
-            activity.startActivity(intent)
+            activity.loadDetailedPoI(pois[viewHolder.adapterPosition].latitude, pois[viewHolder.adapterPosition].longitude)
         }
         return viewHolder
     }
 
     override fun onBindViewHolder(holder: PoIViewHolder, position: Int) {
-        val (name, place, latitude, longitude, badge, commentary, level, type, pictureLink) = pois[position]
+        val (name, place, latitude, longitude, level, type, favorite) = pois[position]
 
         holder.txvName.text = name
         holder.txvPlace.text = place

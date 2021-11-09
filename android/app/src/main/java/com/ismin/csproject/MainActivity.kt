@@ -1,5 +1,6 @@
 package com.ismin.csproject
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Bundle
@@ -38,11 +39,9 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback { //PoICreator
         place = "lieu",
         latitude = 44.5,
         longitude = 2.5,
-        badge = true,
-        commentary = "commentaire",
         level = "Gold",
         type = "Arene",
-        pictureLink = ""
+        favorite = false
     )
 
     private lateinit var tabs: TabLayout
@@ -55,6 +54,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback { //PoICreator
         .baseUrl("https://app-f6e9d866-668a-4c24-9828-5053e791145d.cleverapps.io/")
         .build()
     val poiService = retrofit.create(PoIService::class.java)
+
+    val EXTRA_POI = "extra-poi"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,6 +92,25 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback { //PoICreator
 
             override fun onFailure(call: Call<List<PoI>>, t: Throwable) {
                 Toast.makeText(this@MainActivity, "Error when trying to fetch PoIs" + t.localizedMessage, Toast.LENGTH_LONG).show()
+            }
+        }
+        )
+    }
+
+    fun loadDetailedPoI(latitude: Double, longitude: Double) {
+        poiService.getDetailedPoI(latitude.toString(), longitude.toString()).enqueue(object : Callback<DetailedPoI> {
+            override fun onResponse(
+                call: Call<DetailedPoI>,
+                response: Response<DetailedPoI>
+            ) {
+                val detailedPoI: DetailedPoI? = response.body()
+                val intent = Intent(this@MainActivity, DetailsActivity::class.java)
+                intent.putExtra(EXTRA_POI, detailedPoI)
+                startActivity(intent)
+            }
+
+            override fun onFailure(call: Call<DetailedPoI>, t: Throwable) {
+                Toast.makeText(this@MainActivity, "Error when trying to fetch detailed PoI" + t.localizedMessage, Toast.LENGTH_LONG).show()
             }
         }
         )

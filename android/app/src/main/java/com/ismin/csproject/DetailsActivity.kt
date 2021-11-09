@@ -17,7 +17,7 @@ class DetailsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_details)
 
-        val poiFromMain = intent.getSerializableExtra(EXTRA_POI) as PoI
+        val poiFromMain = intent.getSerializableExtra(EXTRA_POI) as DetailedPoI
 
         val txvName = findViewById<TextView>(R.id.a_details_txv_name)
         val txvPlace = findViewById<TextView>(R.id.a_details_txv_place)

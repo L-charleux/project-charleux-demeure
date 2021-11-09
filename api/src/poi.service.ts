@@ -1,13 +1,12 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
-import { promises } from 'fs';
-import { PoI, ExternalPoI, PoIAbriged } from './PoI';
+import { PoI, DetailedPoI, ExternalPoI} from './PoI';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom, map } from 'rxjs';
 
 @Injectable()
 export class PoIService implements OnModuleInit {
 
-    private storage: PoI[] = [];
+    private storage: DetailedPoI[] = [];
 
     constructor(private readonly httpService: HttpService) {}
 
@@ -40,25 +39,25 @@ export class PoIService implements OnModuleInit {
         apiPoIs.forEach(poi => {this.addPoI(poi)});
     }
 
-    addPoI(poi: PoI): void {
-        if (!(this.storage.some(value => value === poi))) {
-            this.storage.push(poi)
+    addPoI(detailedPoI: DetailedPoI): void {
+        if (!(this.storage.some(value => value === detailedPoI))) {
+            this.storage.push(detailedPoI)
         }
     }
 
     getAllPoIs() {
-        let poisToSend: PoIAbriged [] = [];
-        this.storage.forEach(poi => poisToSend.push(this.createPoIAbriged(poi)))
+        let poisToSend: PoI [] = [];
+        this.storage.forEach(detailedPoI => poisToSend.push(this.createPoIAbriged(detailedPoI)))
         return poisToSend.sort((poiA, poiB) => poiA.name.localeCompare(poiB.name));
     }
 
-    getPoI(latitude: string, longitude: string): PoI | undefined {
+    getPoI(latitude: string, longitude: string): DetailedPoI | undefined {
         return this.storage.find(value => value.latitude.toString() === latitude && value.longitude.toString() === longitude);
     }
 
     getPoIsOf(place: string) {
-        let poisToSend: PoIAbriged [] = [];
-        this.storage.forEach(poi => poisToSend.push(this.createPoIAbriged(poi)))
+        let poisToSend: PoI [] = [];
+        this.storage.forEach(detailedPoI => poisToSend.push(this.createPoIAbriged(detailedPoI)))
         return poisToSend.filter(value => value.place === place);
     }
 
@@ -74,17 +73,17 @@ export class PoIService implements OnModuleInit {
     }
     */
 
-    createPoIAbriged(poi: PoI): PoIAbriged {
-        let poiAbriged: PoIAbriged = {
-            name: poi.name,
-            place: poi.place,
-            latitude: poi.latitude,
-            longitude: poi.longitude,
-            level: poi.level,
-            type: poi.type,
-            favorite: poi.favorite
+    createPoIAbriged(detailedPoI: DetailedPoI): PoI {
+        let poi: PoI = {
+            name: detailedPoI.name,
+            place: detailedPoI.place,
+            latitude: detailedPoI.latitude,
+            longitude: detailedPoI.longitude,
+            level: detailedPoI.level,
+            type: detailedPoI.type,
+            favorite: detailedPoI.favorite
         }
-        return poiAbriged
+        return poi
     }
 
 }
