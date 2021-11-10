@@ -1,5 +1,8 @@
 package com.ismin.csproject
 
+import org.apache.commons.lang3.StringUtils
+import java.text.Normalizer
+
 class PoIStorage {
     private val storage: ArrayList<PoI> = ArrayList()
 
@@ -8,8 +11,8 @@ class PoIStorage {
             this.storage.add(poi)
     }
 
-    fun getPoI(longitude: Double, latitude: Double): PoI?{
-        return this.storage.find { p: PoI -> p.longitude == longitude && p.latitude == latitude }
+    fun getPoI(latitude: Double, longitude: Double): PoI?{
+        return this.storage.find { p: PoI -> p.latitude == latitude && p.longitude == longitude }
     }
 
     fun getPoIsOf(place: String): List<PoI> {
@@ -17,7 +20,7 @@ class PoIStorage {
     }
 
     fun getAllPoIs(): ArrayList<PoI>{
-        return ArrayList(this.storage.sortedWith(compareBy { it.name }))
+        return ArrayList(this.storage.filter{ p: PoI -> p.favorite }.sortedWith(compareBy { stripAccents(it.name.lowercase()) }) + this.storage.filter{ p: PoI -> !p.favorite }.sortedWith(compareBy { stripAccents(it.name.lowercase()) }))
     }
 
     fun getTotalNumberOfPoIs() : Number {
@@ -27,4 +30,12 @@ class PoIStorage {
     fun clear() {
         storage.clear()
     }
+
+    fun stripAccents(s: String): String? {
+        var s = s
+        s = Normalizer.normalize(s, Normalizer.Form.NFD)
+        s = s.replace("[\\p{InCombiningDiacriticalMarks}]".toRegex(), "")
+        return s
+    }
+
 }

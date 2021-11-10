@@ -15,7 +15,7 @@
         android:fontFamily="sans-serif-thin"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/r_poi_imv_favorite"
         app:layout_constraintStart_toEndOf="@+id/r_poi_imv_logo"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Name" />
@@ -38,5 +38,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_poi_logo" />
+
+    <ImageView
+        android:id="@+id/r_poi_imv_favorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_not_favorite" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

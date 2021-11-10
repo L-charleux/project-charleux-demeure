@@ -27,9 +27,19 @@ class PoIAdapter(private val pois: ArrayList<PoI>): RecyclerView.Adapter<PoIView
 
     override fun onBindViewHolder(holder: PoIViewHolder, position: Int) {
         val (name, place, latitude, longitude, level, type, favorite) = pois[position]
-
         holder.txvName.text = name
         holder.txvPlace.text = place
+
+        if (favorite) {
+            holder.imvFavorite.setImageResource(R.drawable.ic_favorite)
+        } else {
+            holder.imvFavorite.setImageResource(R.drawable.ic_not_favorite)
+        }
+
+        val activity = holder.itemView.context as MainActivity
+        holder.imvFavorite.setOnClickListener {
+            activity.sendFavoritePoI(pois[holder.adapterPosition].latitude, pois[holder.adapterPosition].longitude)
+        }
     }
 
     override fun getItemCount(): Int {

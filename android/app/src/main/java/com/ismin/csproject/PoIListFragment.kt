@@ -46,4 +46,10 @@ class PoIListFragment : Fragment() {
                 }
             }
     }
+
+    fun refreshList(newPoIs: ArrayList<PoI>) {
+        pois = newPoIs
+        adapter.refreshData(pois)
+        adapter.notifyDataSetChanged()
+    }
 }
