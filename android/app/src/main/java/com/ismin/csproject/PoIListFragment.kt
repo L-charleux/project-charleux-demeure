@@ -47,6 +47,10 @@ class PoIListFragment : Fragment() {
             }
     }
 
+    /**
+     * Refreshes the list of PoIs
+     * Calls the function which refreshes the recycler view
+     */
     fun refreshList(newPoIs: ArrayList<PoI>) {
         pois = newPoIs
         adapter.refreshData(pois)

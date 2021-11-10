@@ -7,7 +7,6 @@ import android.graphics.Canvas
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-//import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
@@ -20,21 +19,15 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.tabs.TabLayout
-//import com.google.android.material.floatingactionbutton.FloatingActionButton
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import android.graphics.drawable.VectorDrawable
-import android.util.Log
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.fragment.app.FragmentTransaction
-import java.sql.Timestamp
-import java.time.Instant
 import java.util.*
-
 
 class MainActivity : AppCompatActivity(), OnMapReadyCallback { //PoICreator
 
@@ -43,29 +36,39 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback { //PoICreator
     private lateinit var tabs: TabLayout
     private lateinit var viewPager: ViewPager
     private lateinit var viewPagerAdapter: ViewPagerAdapter
-    //private lateinit var btnCreateBook: FloatingActionButton
 
-    val retrofit = Retrofit.Builder()
+    private val retrofit = Retrofit.Builder()
         .addConverterFactory(GsonConverterFactory.create())
         .baseUrl("https://project-lcx-tde.cleverapps.io/")
         .build()
-    val poiService = retrofit.create(PoIService::class.java)
+    private val poiService = retrofit.create(PoIService::class.java)
 
     val EXTRA_POI = "extra-poi"
     val EXTRA_STRING = "extra-string"
 
+    /**
+     * Used to launch the Details Activity to receive the string changeFavorite from it
+     * This string contains the coordinates of the PoI which has been displayed if the user
+     * toggled its favorite parameter
+     * If this parameter has been toggled, the function which informs the API is called
+     */
     private val startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             result: ActivityResult ->
         if (result.resultCode == Activity.RESULT_OK) {
             val changeFavorite = result.data?.getSerializableExtra(EXTRA_STRING) as String
             if (changeFavorite != "notChanged") {
-                var latitude = changeFavorite.split(",")[0].toDouble()
-                var longitude = changeFavorite.split(",")[1].toDouble()
+                val latitude = changeFavorite.split(",")[0].toDouble()
+                val longitude = changeFavorite.split(",")[1].toDouble()
                 sendFavoritePoI(latitude, longitude)
             }
         }
     }
 
+    /**
+     * Called when the Main Activity is created
+     * Initializes the Tab Layout, the View Pager and its adapter
+     * Calls the function which loads all the PoIs from the API
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -75,15 +78,11 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback { //PoICreator
         viewPagerAdapter = ViewPagerAdapter(supportFragmentManager)
 
         loadAllPoIs()
-
-        /*
-        btnCreateBook = findViewById(R.id.a_main_btn_create_book)
-        btnCreateBook.setOnClickListener {
-            displayCreateBook()
-        }
-         */
     }
 
+    /**
+     * Loads the dataset of PoIs from the API and call the function which initializes the display
+     */
     private fun loadAllPoIs() {
         poiService.getAllPoIs().enqueue(object : Callback<List<PoI>> {
             override fun onResponse(
@@ -105,6 +104,9 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback { //PoICreator
         )
     }
 
+    /**
+     * Reloads the dataset of PoIs from the API and call the function which refreshes the display
+     */
     private fun reloadAllPoIs() {
         poiStorage.clear()
         poiService.getAllPoIs().enqueue(object : Callback<List<PoI>> {
@@ -127,6 +129,9 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback { //PoICreator
         )
     }
 
+    /**
+     * Loads the details about the PoI of coordinates (latitude,longitude) from the API and starts the Details Activity
+     */
     fun loadDetailedPoI(latitude: Double, longitude: Double) {
         poiService.getDetailedPoI(latitude.toString(), longitude.toString()).enqueue(object : Callback<DetailedPoI> {
             override fun onResponse(
@@ -137,7 +142,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback { //PoICreator
                 val intent = Intent(this@MainActivity, DetailsActivity::class.java)
                 intent.putExtra(EXTRA_POI, detailedPoI)
                 startForResult.launch(intent)
-                //startActivity(intent)
             }
 
             override fun onFailure(call: Call<DetailedPoI>, t: Throwable) {
@@ -147,6 +151,9 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback { //PoICreator
         )
     }
 
+    /**
+     * Sends a http request to inform the API a PoI has been put in favorite and reloads the dataset of PoIs
+     */
     fun sendFavoritePoI(latitude: Double, longitude: Double) {
         poiService.putFavoritePoI(latitude.toString(), longitude.toString())
             .enqueue(object : Callback<PoI> {
@@ -168,12 +175,15 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback { //PoICreator
             )
     }
 
+    /**
+     * Initializes the Display of the Tab Layout and the View Pager containing the fragments of the list, the map and the general information
+     */
     private fun initializeDisplay() {
-        viewPagerAdapter.addFragment(PoIListFragment.newInstance(poiStorage.getAllPoIs()), "")
-        var supportMapFragment = SupportMapFragment.newInstance()
+        viewPagerAdapter.addFragment(PoIListFragment.newInstance(poiStorage.getAllPoIs()), "") //Creates a new fragment for the PoI List and add it to the View Pager Adapter
+        val supportMapFragment = SupportMapFragment.newInstance() //Creates a new fragment for the map
         supportMapFragment.getMapAsync(this)
-        viewPagerAdapter.addFragment(supportMapFragment, "")
-        viewPagerAdapter.addFragment(InfoFragment(), "")
+        viewPagerAdapter.addFragment(supportMapFragment, "") //Add the map fragment to the View Pager Adapter
+        viewPagerAdapter.addFragment(InfoFragment(), "") //Creates a new fragment for the general information and add it to the View Pager Adapter
 
         viewPager.adapter = viewPagerAdapter
         tabs.setupWithViewPager(viewPager)
@@ -183,6 +193,9 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback { //PoICreator
         tabs.getTabAt(2)!!.setIcon(R.drawable.ic_info)
     }
 
+    /**
+     * Refreshes the display of the fragments of the list and the map
+     */
     private fun refreshDisplay() {
         val poiListFragment = viewPagerAdapter.getItem(0) as PoIListFragment
         poiListFragment.refreshList(poiStorage.getAllPoIs())
@@ -190,9 +203,14 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback { //PoICreator
         supportMapFragment.getMapAsync(this)
     }
 
+    /**
+     * Triggered when the function "getMapAsync" is called
+     * Removes all the markers and creates new ones for all the PoIs of the poiStorage with the good icons
+     * Centers the map on the city of "Gardanne"
+     */
     override fun onMapReady(gmap: GoogleMap?) {
         if (gmap != null) {
-            var icToPick: BitmapDescriptor;
+            var icToPick: BitmapDescriptor
             gmap.clear()
             poiStorage.getAllPoIs().forEach {
 
@@ -211,7 +229,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback { //PoICreator
                 gmap.addMarker(
                     MarkerOptions()
                         .position(LatLng(it.latitude, it.longitude))
-                        .title(it.name.toString())
+                        .title(it.name)
                         .icon(icToPick)
                 )
             }
@@ -220,26 +238,36 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback { //PoICreator
         }
     }
 
+    /**
+    Converts a VectorDrawable into a Bitmap
+    This function is used for the marker icon on the map
+     */
     private fun getBitmap(vectorDrawable: VectorDrawable): Bitmap? {
         val bitmap = Bitmap.createBitmap(
             vectorDrawable.intrinsicWidth,
             vectorDrawable.intrinsicHeight, Bitmap.Config.ARGB_8888
         )
         val canvas = Canvas(bitmap)
-        vectorDrawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight())
+        vectorDrawable.setBounds(0, 0, canvas.width, canvas.height)
         vectorDrawable.draw(canvas)
         return bitmap
     }
 
+    /**
+    Creates a menu in the Main Activity
+    */
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         super.onCreateOptionsMenu(menu)
         menuInflater.inflate(R.menu.main_menu, menu)
         return true
     }
 
+    /**
+    Detects the click on an item of the menu
+     */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.main_menu_refresh -> {
+            R.id.main_menu_refresh -> { //Triggered when the user clicks on the refresh button
                 reloadAllPoIs()
                 true
             }
@@ -247,44 +275,4 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback { //PoICreator
             else -> super.onOptionsItemSelected(item)
         }
     }
-
-    /*
-    private fun displayPoIList() {
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
-        val fragment = BookListFragment.newInstance(bookshelf.getAllBooks())
-        fragmentTransaction.replace(R.id.a_main_lyt_fragment_container, fragment)
-        fragmentTransaction.commit()
-    }
-
-    private fun displayCreateBook() {
-        btnCreateBook.visibility = View.GONE
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
-        val fragment = CreateBookFragment.newInstance()
-        fragmentTransaction.replace(R.id.a_main_lyt_fragment_container, fragment)
-        fragmentTransaction.commit()
-    }
-
-    override fun onBookCreated(book: Book) {
-        bookService.createBook(book)
-            .enqueue(object : Callback<Book> {
-                override fun onResponse(
-                    call: Call<Book>,
-                    response: Response<Book>
-                ) {
-                    val createdBook: Book? = response.body()
-
-                    createdBook?.let {
-                        bookshelf.addBook(book);
-                    }
-
-                    displayBookList();
-                }
-
-                override fun onFailure(call: Call<Book>, t: Throwable) {
-                    Toast.makeText(this@MainActivity, "Error when trying to create a book" + t.localizedMessage, Toast.LENGTH_LONG).show()
-                }
-            }
-            )
-    }
-     */
 }

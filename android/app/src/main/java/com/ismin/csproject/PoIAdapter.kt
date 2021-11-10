@@ -1,16 +1,8 @@
 package com.ismin.csproject
 
-import android.app.Activity
-import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import androidx.core.content.ContextCompat.startActivity
-
-import android.content.Intent
-import androidx.core.content.ContextCompat
-import com.google.android.material.internal.ContextUtils.getActivity
 
 
 class PoIAdapter(private val pois: ArrayList<PoI>): RecyclerView.Adapter<PoIViewHolder>() {
@@ -18,9 +10,9 @@ class PoIAdapter(private val pois: ArrayList<PoI>): RecyclerView.Adapter<PoIView
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PoIViewHolder {
         val row = LayoutInflater.from(parent.context).inflate(R.layout.row_poi, parent, false)
         val viewHolder = PoIViewHolder(row)
-        val activity = viewHolder.itemView.context as MainActivity
-        viewHolder.poi_item.setOnClickListener {
-            activity.loadDetailedPoI(pois[viewHolder.adapterPosition].latitude, pois[viewHolder.adapterPosition].longitude)
+        val activity = viewHolder.itemView.context as MainActivity //Reference to the Main Activity
+        viewHolder.poi_item.setOnClickListener { //Detects the click on an item of the Recycler View
+            activity.loadDetailedPoI(pois[viewHolder.adapterPosition].latitude, pois[viewHolder.adapterPosition].longitude) //Calls the function which loads the details of the PoI which has been clicked
         }
         return viewHolder
     }
@@ -30,22 +22,25 @@ class PoIAdapter(private val pois: ArrayList<PoI>): RecyclerView.Adapter<PoIView
         holder.txvName.text = name
         holder.txvPlace.text = place
 
-        if (favorite) {
+        if (favorite) { //Display the images corresponding to the state of the parameter Favorite of the PoI
             holder.imvFavorite.setImageResource(R.drawable.ic_favorite)
         } else {
             holder.imvFavorite.setImageResource(R.drawable.ic_not_favorite)
         }
 
-        val activity = holder.itemView.context as MainActivity
-        holder.imvFavorite.setOnClickListener {
-            activity.sendFavoritePoI(pois[holder.adapterPosition].latitude, pois[holder.adapterPosition].longitude)
-        }
+        val activity = holder.itemView.context as MainActivity //Reference to the Main Activity
+        holder.imvFavorite.setOnClickListener { //Detects the click on the Image View associated to the parameter Favorite
+            activity.sendFavoritePoI(pois[holder.adapterPosition].latitude, pois[holder.adapterPosition].longitude) //Calls the function which informs the API that
+        }                                                                                                           //the PoIs of coordinates (latitude, longitude) has been put in favorite
     }
 
     override fun getItemCount(): Int {
         return pois.size
     }
 
+    /**
+     * Refreshes the recycler view with a new list of PoIs
+     */
     fun refreshData(newPoIs: ArrayList<PoI>) {
         pois.clear()
         pois.addAll(newPoIs)

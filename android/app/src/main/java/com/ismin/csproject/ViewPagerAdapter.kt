@@ -1,12 +1,8 @@
 package com.ismin.csproject
 
-import android.util.Log
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import androidx.viewpager.widget.PagerAdapter
-import java.util.*
 import kotlin.collections.ArrayList
 
 class ViewPagerAdapter(private val fm: FragmentManager) : FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
@@ -26,17 +22,13 @@ class ViewPagerAdapter(private val fm: FragmentManager) : FragmentPagerAdapter(f
         return fragmentTitle[position]
     }
 
+    /**
+     * Adds a fragment to display in the View Pager Adapter
+     */
     fun addFragment(f:Fragment, title:String) {
         fragmentList.add(fragmentList.size, f)
         fragmentTitle.add(fragmentTitle.size,title)
         notifyDataSetChanged()
-    }
-
-    fun deleteItem(position: Int) {
-        fragmentList.removeAt(position)
-        fragmentTitle.removeAt(position)
-        //notifyDataSetChanged()
-        Log.d("TAG", Date().toString())
     }
 
 }

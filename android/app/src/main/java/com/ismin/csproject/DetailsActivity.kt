@@ -8,9 +8,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 
-
-
-
 class DetailsActivity : AppCompatActivity() {
 
     private val EXTRA_POI = "extra-poi"
@@ -18,6 +15,12 @@ class DetailsActivity : AppCompatActivity() {
     private var changeFavorite = false
     private lateinit var poiFromMain : DetailedPoI
 
+    /**
+     * Called when the Details Activity is created
+     * Initializes the Texts Views and the Images Views used to display the details of the PoI received from the Main Activity
+     * Detects if the user toggles the parameter Favorite of the PoI by clicking on the corresponding Image View
+     * If the parameter is toggled, sends the coordinates of the PoI to Main Activity to inform it when the Details Activity is closed
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_details)
@@ -46,15 +49,15 @@ class DetailsActivity : AppCompatActivity() {
             imvFavorite.setImageResource(R.drawable.ic_not_favorite)
         }
 
-        Glide.with(this)
+        Glide.with(this) //Displays the image of the PoI
             .load(poiFromMain.pictureLink)
             .placeholder(R.drawable.ic_poi_logo)
             .error(R.drawable.ic_broken_image)
             .fallback(R.drawable.ic_broken_image)
             .into(imvImage)
 
-        imvFavorite.setOnClickListener {
-            changeFavorite = !changeFavorite;
+        imvFavorite.setOnClickListener { //Detects the click on the Image View associated to the parameter Favorite
+            changeFavorite = !changeFavorite //and displays the images corresponding to the actual state of this parameter
             if (poiFromMain.favorite) {
                 if (changeFavorite)
                     imvFavorite.setImageResource(R.drawable.ic_not_favorite)
@@ -69,14 +72,20 @@ class DetailsActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Called when this activity is closed and calls the function which sends the string to the Main Activity
+     */
     override fun onBackPressed() {
         stopActivityAndReturnResult()
         super.onBackPressed()
     }
 
+    /**
+     * Returns the string of the Main Activity
+     */
     private fun stopActivityAndReturnResult() {
         val returnIntent = Intent()
-        var coordBecameFavorite : String = "notChanged"
+        var coordBecameFavorite = "notChanged"
         if (changeFavorite)
             coordBecameFavorite = poiFromMain.latitude.toString() + "," + poiFromMain.longitude.toString()
         returnIntent.putExtra(EXTRA_STRING, coordBecameFavorite)
