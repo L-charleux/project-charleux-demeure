@@ -31,7 +31,7 @@ export class PoIService implements OnModuleInit {
                 level: apiPoI.Niveau,
                 type: apiPoI.Type,
                 pictureLink: apiPoI.gx_media_links,
-                favorite: "False"
+                favorite: false
               })),
             ),
           ),

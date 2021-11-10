@@ -5,7 +5,7 @@ export interface PoI {
     longitude: number;
     level: string;
     type: string;
-    favorite: string;
+    favorite: boolean;
 }
 
 export interface DetailedPoI {
@@ -17,7 +17,7 @@ export interface DetailedPoI {
     level: string;
     type: string;
     pictureLink: string;
-    favorite: string;
+    favorite: boolean;
 }
 
 export interface ExternalPoI {
