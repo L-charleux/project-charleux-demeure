@@ -25,14 +25,13 @@ export class PoIController {
   getPoI(@Param('latitude') latitude: string, @Param('longitude') longitude: string): DetailedPoI {
     return this.PoIService.getPoI(latitude, longitude);
   }
-
+  
+  @Put('/:latitude/:longitude')
+  putFavoritePoI(@Param('latitude') latitude: string, @Param('longitude') longitude: string): PoI  {
+    return this.PoIService.toggleFavorite(latitude, longitude);
+  }
 
   /*
-  @Put('/:latitude/:longitude')
-  favoritePoI(@Param('latitude') latitude: number, @Param('longitude') longitude: number, @Body() poi: PoI): void  {
-    this.PoIService.commuteFavorite(poi);
-  }
-  
   @Delete('/:latitude/:longitude')
   deletePoI(@Param('longitude') latitude: number, @Param('latitude') longitude: number): void {
     this.PoIService.deletePoI(latitude, longitude);

@@ -48,7 +48,7 @@ export class PoIService implements OnModuleInit {
     getAllPoIs() {
         let poisToSend: PoI [] = [];
         this.storage.forEach(detailedPoI => poisToSend.push(this.createPoIAbriged(detailedPoI)))
-        return poisToSend.sort((poiA, poiB) => poiA.name.localeCompare(poiB.name));
+        return poisToSend.sort((poiA, poiB) => poiA.name.localeCompare(poiB.name)).sort((poiA, poiB) => Number(poiA.favorite) - Number(poiB.favorite));
     }
 
     getPoI(latitude: string, longitude: string): DetailedPoI | undefined {
@@ -84,6 +84,12 @@ export class PoIService implements OnModuleInit {
             favorite: detailedPoI.favorite
         }
         return poi
+    }
+
+    toggleFavorite(latitude: string, longitude: string): PoI {
+        this.storage.find(value => value.latitude.toString() === latitude && value.longitude.toString() === longitude).favorite = 
+        !this.storage.find(value => value.latitude.toString() === latitude && value.longitude.toString() === longitude).favorite;
+        return this.createPoIAbriged(this.storage.find(value => value.latitude.toString() === latitude && value.longitude.toString() === longitude))
     }
 
 }
