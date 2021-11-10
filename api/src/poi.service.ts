@@ -48,7 +48,7 @@ export class PoIService implements OnModuleInit {
     getAllPoIs() {
         let poisToSend: PoI [] = [];
         this.storage.forEach(detailedPoI => poisToSend.push(this.createPoIAbriged(detailedPoI)))
-        return poisToSend.sort((poiA, poiB) => poiA.name.localeCompare(poiB.name)).sort((poiA, poiB) => Number(poiA.favorite) - Number(poiB.favorite));
+        return poisToSend.sort((poiA, poiB) => poiA.name.localeCompare(poiB.name)).sort((poiA, poiB) => Number(poiB.favorite) - Number(poiA.favorite));
     }
 
     getPoI(latitude: string, longitude: string): DetailedPoI | undefined {
